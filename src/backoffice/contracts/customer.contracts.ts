@@ -1,10 +1,10 @@
 import { Contract } from './contract';
-import { Customer } from '../models/customer.model';
 import { Flunt } from '../../utils/flunt';
+import { CreateCustomerDto } from '../dtos/create-customer-dto';
 
 export class CreateCustomerContract implements Contract {
   errors: any[];
-  validate(model: Customer): boolean {
+  validate(model: CreateCustomerDto): boolean {
     const flunt = new Flunt();
 
     flunt.hasMinLen(model.name, 5, 'Invalid name');
