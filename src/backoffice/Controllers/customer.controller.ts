@@ -20,6 +20,8 @@ import { CustomerService } from '../services/customer.service';
 import { Customer } from '../models/customer.model';
 import { Address } from '../models/address.model';
 import { CreateAddressContract } from '../contracts/customer/create-address.contract';
+import { CreatePetContract } from '../contracts/customer/create-pet.contract';
+import { Pet } from '../models/pet.model';
 
 @Controller('v1/customers')
 export class CustomerController {
@@ -27,16 +29,6 @@ export class CustomerController {
     private readonly accountService: AccountService,
     private readonly customerService: CustomerService,
   ) {}
-
-  @Get()
-  get() {
-    return new Result(null, true, [], null);
-  }
-
-  @Get(':document')
-  getById(@Param('document') document) {
-    return new Result(null, true, {}, null);
-  }
 
   @Post()
   @UseInterceptors(new ValidatorInterceptor(new CreateCustomerContract()))
@@ -97,10 +89,7 @@ export class CustomerController {
     @Body() model: Address,
   ) {
     try {
-      const res = await this.customerService.addShippingAddress(
-        document,
-        model,
-      );
+      await this.customerService.addShippingAddress(document, model);
 
       return new Result(null, true, model, null);
     } catch (error) {
@@ -116,13 +105,23 @@ export class CustomerController {
     }
   }
 
-  @Put(':document')
-  put(@Param(':document') document, @Body() body) {
-    return new Result('Client updated', true, body, null);
-  }
+  @Post(':document/pets')
+  @UseInterceptors(new ValidatorInterceptor(new CreatePetContract()))
+  async createPet(@Param('document') document: string, @Body() model: Pet) {
+    try {
+      await this.customerService.addPet(document, model);
 
-  @Delete()
-  delete() {
-    return 'Remove client';
+      return new Result(null, true, model, null);
+    } catch (error) {
+      throw new HttpException(
+        new Result(
+          'Something went wrong. It was not possible to add your pet.',
+          false,
+          null,
+          error,
+        ),
+        HttpStatus.BAD_REQUEST,
+      );
+    }
   }
 }
