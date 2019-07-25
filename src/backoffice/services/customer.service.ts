@@ -66,4 +66,18 @@ export class CustomerService {
       },
     );
   }
+
+  async findAll(): Promise<Customer[]> {
+    return await this.model
+      .find({}, 'name email document')
+      .sort('name')
+      .exec();
+  }
+
+  async find(document: string): Promise<Customer[]> {
+    return await this.model
+      .find({ document })
+      .populate('user', 'username')
+      .exec();
+  }
 }

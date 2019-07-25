@@ -148,4 +148,18 @@ export class CustomerController {
       );
     }
   }
+
+  @Get()
+  async getAll() {
+    const customers = await this.customerService.findAll();
+
+    return new Result(null, true, customers, null);
+  }
+
+  @Get(':document')
+  async get(@Param('document') document: string) {
+    const customer = await this.customerService.find(document);
+
+    return new Result(null, true, customer, null);
+  }
 }
