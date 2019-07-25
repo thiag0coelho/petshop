@@ -76,7 +76,33 @@ export class CustomerController {
     try {
       const res = await this.customerService.addBillingAddress(document, model);
 
-      return res;
+      return new Result(null, true, model, null);
+    } catch (error) {
+      throw new HttpException(
+        new Result(
+          'Something went wrong. It was not possible to add your address.',
+          false,
+          null,
+          error,
+        ),
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  @Post(':document/addresses/shipping')
+  @UseInterceptors(new ValidatorInterceptor(new CreateAddressContract()))
+  async addShippingAddress(
+    @Param('document') document: string,
+    @Body() model: Address,
+  ) {
+    try {
+      const res = await this.customerService.addShippingAddress(
+        document,
+        model,
+      );
+
+      return new Result(null, true, model, null);
     } catch (error) {
       throw new HttpException(
         new Result(
