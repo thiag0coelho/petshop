@@ -12,12 +12,14 @@ import {
 } from '@nestjs/common';
 import { Result } from '../models/result.model';
 import { ValidatorInterceptor } from '../../interceptors/validator.interceptor';
-import { CreateCustomerContract } from '../contracts/customer.contracts';
+import { CreateCustomerContract } from '../contracts/customer/create-customer.contract';
 import { CreateCustomerDto } from '../dtos/create-customer-dto';
 import { AccountService } from '../services/account.service';
 import { User } from '../models/user.model';
 import { CustomerService } from '../services/customer.service';
 import { Customer } from '../models/customer.model';
+import { Address } from '../models/address.model';
+import { CreateAddressContract } from '../contracts/customer/create-address.contract';
 
 @Controller('v1/customers')
 export class CustomerController {
@@ -60,6 +62,29 @@ export class CustomerController {
     } catch (error) {
       throw new HttpException(
         new Result('Something went wrong', false, null, error),
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  @Post(':document/addresses/billing')
+  @UseInterceptors(new ValidatorInterceptor(new CreateAddressContract()))
+  async addBillingAddress(
+    @Param('document') document: string,
+    @Body() model: Address,
+  ) {
+    try {
+      const res = await this.customerService.addBillingAddress(document, model);
+
+      return res;
+    } catch (error) {
+      throw new HttpException(
+        new Result(
+          'Something went wrong. It was not possible to add your address.',
+          false,
+          null,
+          error,
+        ),
         HttpStatus.BAD_REQUEST,
       );
     }

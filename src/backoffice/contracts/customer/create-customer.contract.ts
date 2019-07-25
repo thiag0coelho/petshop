@@ -1,6 +1,6 @@
-import { Contract } from './contract';
-import { Flunt } from '../../utils/flunt';
-import { CreateCustomerDto } from '../dtos/create-customer-dto';
+import { Contract } from '../contract';
+import { Flunt } from '../../../utils/flunt';
+import { CreateCustomerDto } from '../../dtos/create-customer-dto';
 
 export class CreateCustomerContract implements Contract {
   errors: any[];
