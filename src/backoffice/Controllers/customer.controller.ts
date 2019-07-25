@@ -32,7 +32,7 @@ export class CustomerController {
 
   @Post()
   @UseInterceptors(new ValidatorInterceptor(new CreateCustomerContract()))
-  async post(@Body() model: CreateCustomerDto) {
+  async createCustomer(@Body() model: CreateCustomerDto) {
     try {
       const user = await this.accountService.create(
         new User(model.document, model.password, true),
@@ -110,6 +110,30 @@ export class CustomerController {
   async createPet(@Param('document') document: string, @Body() model: Pet) {
     try {
       await this.customerService.addPet(document, model);
+
+      return new Result(null, true, model, null);
+    } catch (error) {
+      throw new HttpException(
+        new Result(
+          'Something went wrong. It was not possible to add your pet.',
+          false,
+          null,
+          error,
+        ),
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  @Put(':document/pets/:id')
+  @UseInterceptors(new ValidatorInterceptor(new CreatePetContract()))
+  async updatePet(
+    @Param('document') document: string,
+    @Param('id') id: string,
+    @Body() model: Pet,
+  ) {
+    try {
+      await this.customerService.updatePet(document, id, model);
 
       return new Result(null, true, model, null);
     } catch (error) {
