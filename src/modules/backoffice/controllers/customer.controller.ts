@@ -3,7 +3,6 @@ import {
   Get,
   Post,
   Put,
-  Delete,
   Param,
   Body,
   UseInterceptors,
@@ -11,7 +10,7 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { Result } from '../models/result.model';
-import { ValidatorInterceptor } from '../../interceptors/validator.interceptor';
+import { ValidatorInterceptor } from '../../../interceptors/validator.interceptor';
 import { CreateCustomerContract } from '../contracts/customer/create-customer.contract';
 import { CreateCustomerDto } from '../dtos/create-customer.dto';
 import { AccountService } from '../services/account.service';

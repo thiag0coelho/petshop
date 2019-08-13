@@ -1,7 +1,7 @@
-import { Model } from 'mongoose';
 import { Injectable } from '@nestjs/common';
-import { Customer } from '../Models/customer.model';
 import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { Customer } from '../Models/customer.model';
 import { Address } from '../models/address.model';
 import { Pet } from '../models/pet.model';
 import { QueryDto } from '../dtos/query.dto';
