@@ -20,6 +20,8 @@ import { Customer } from '../models/customer.model';
 import { QueryDto } from '../dtos/query.dto';
 import { UpdateCustomerContract } from '../contracts/customer/update-customer.contract';
 import { UpdateCustomerDto } from '../dtos/customer/update-customer.dto';
+import { CreateCreditCardContract } from '../contracts/customer/create-credit-card.contract';
+import { CreditCard } from '../Models/credit-card.model';
 
 @Controller('v1/customers')
 export class CustomerController {
@@ -94,5 +96,19 @@ export class CustomerController {
   async query(@Body() model: QueryDto) {
     const customers = await this.customerService.query(model);
     return new Result(null, true, customers, null);
+  }
+
+  @Post(':document/credit-cards')
+  @UseInterceptors(new ValidatorInterceptor(new CreateCreditCardContract()))
+  async createBilling(@Param('document') document, @Body() model: CreditCard) {
+    try {
+      await this.customerService.saveOrUpdateCreditCard(document, model);
+      return new Result(null, true, model, null);
+    } catch (error) {
+      throw new HttpException(
+        new Result('Não foi possível adicionar ', false, model, error),
+        HttpStatus.BAD_REQUEST,
+      );
+    }
   }
 }

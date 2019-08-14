@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Customer } from '../Models/customer.model';
-import { QueryDto } from '../dtos/query.dto';
-import { UpdateCustomerDto } from '../dtos/customer/update-customer.dto';
+import { Customer } from 'src/modules/backoffice/Models/customer.model';
+import { QueryDto } from 'src/modules/backoffice/dtos/query.dto';
+import { UpdateCustomerDto } from 'src/modules/backoffice/dtos/customer/update-customer.dto';
+import { CreditCard } from 'src/modules/backoffice/Models/credit-card.model';
 
 @Injectable()
 export class CustomerService {
@@ -43,5 +44,21 @@ export class CustomerService {
       })
       .sort(model.sort)
       .exec();
+  }
+
+  async saveOrUpdateCreditCard(
+    document: string,
+    data: CreditCard,
+  ): Promise<Customer> {
+    const options = { upsert: true };
+    return await this.model.findOneAndUpdate(
+      { document },
+      {
+        $set: {
+          card: data,
+        },
+        options,
+      },
+    );
   }
 }
