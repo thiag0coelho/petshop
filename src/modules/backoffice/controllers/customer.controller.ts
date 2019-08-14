@@ -2,7 +2,6 @@ import {
   Controller,
   Get,
   Post,
-  Put,
   Param,
   Body,
   UseInterceptors,
@@ -17,10 +16,6 @@ import { AccountService } from '../services/account.service';
 import { User } from '../models/user.model';
 import { CustomerService } from '../services/customer.service';
 import { Customer } from '../models/customer.model';
-import { Address } from '../models/address.model';
-import { CreateAddressContract } from '../contracts/customer/create-address.contract';
-import { CreatePetContract } from '../contracts/customer/create-pet.contract';
-import { Pet } from '../models/pet.model';
 import { QueryDto } from '../dtos/query.dto';
 
 @Controller('v1/customers')

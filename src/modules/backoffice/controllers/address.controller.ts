@@ -10,7 +10,7 @@ import {
 import { Result } from '../models/result.model';
 import { ValidatorInterceptor } from '../../../interceptors/validator.interceptor';
 import { Address } from '../models/address.model';
-import { CreateAddressContract } from '../contracts/customer/create-address.contract';
+import { CreateAddressContract } from '../contracts/address/create-address.contract';
 import { AddressService } from '../services/address.service';
 import { AddressType } from '../enums/address-type.enum';
 
@@ -18,7 +18,7 @@ import { AddressType } from '../enums/address-type.enum';
 export class AddressController {
   constructor(private readonly service: AddressService) {}
 
-  @Post(':document/addresses/billing')
+  @Post(':document/billing')
   @UseInterceptors(new ValidatorInterceptor(new CreateAddressContract()))
   async addBillingAddress(
     @Param('document') document: string,
@@ -45,7 +45,7 @@ export class AddressController {
     }
   }
 
-  @Post(':document/addresses/shipping')
+  @Post(':document/shipping')
   @UseInterceptors(new ValidatorInterceptor(new CreateAddressContract()))
   async addShippingAddress(
     @Param('document') document: string,

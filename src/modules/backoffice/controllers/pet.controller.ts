@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import { Result } from '../models/result.model';
 import { ValidatorInterceptor } from '../../../interceptors/validator.interceptor';
-import { CreatePetContract } from '../contracts/customer/create-pet.contract';
+import { CreatePetContract } from '../contracts/pet/create-pet.contract';
 import { Pet } from '../models/pet.model';
 import { PetService } from '../services/pet.service';
 
@@ -20,7 +20,7 @@ export class PetController {
     private readonly service: PetService,
   ) {}
 
-  @Post(':document/pets')
+  @Post(':document')
   @UseInterceptors(new ValidatorInterceptor(new CreatePetContract()))
   async createPet(@Param('document') document: string, @Body() model: Pet) {
     try {
@@ -40,7 +40,7 @@ export class PetController {
     }
   }
 
-  @Put(':document/pets/:id')
+  @Put(':document/:id')
   @UseInterceptors(new ValidatorInterceptor(new CreatePetContract()))
   async updatePet(
     @Param('document') document: string,
