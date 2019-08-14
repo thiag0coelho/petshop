@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { BackofficeModule } from './modules/backoffice/backoffice.module';
+import { BackofficeModule } from 'src/modules/backoffice/backoffice.module';
+import { StoreModule } from 'src/modules/store/store.module';
 
 @Module({
   imports: [
@@ -11,6 +12,7 @@ import { BackofficeModule } from './modules/backoffice/backoffice.module';
       },
     ),
     BackofficeModule,
+    StoreModule,
   ],
   controllers: [],
   providers: [],
