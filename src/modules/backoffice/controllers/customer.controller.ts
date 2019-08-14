@@ -7,16 +7,19 @@ import {
   UseInterceptors,
   HttpException,
   HttpStatus,
+  Put,
 } from '@nestjs/common';
 import { Result } from '../models/result.model';
 import { ValidatorInterceptor } from '../../../interceptors/validator.interceptor';
 import { CreateCustomerContract } from '../contracts/customer/create-customer.contract';
-import { CreateCustomerDto } from '../dtos/create-customer.dto';
+import { CreateCustomerDto } from '../dtos/customer/create-customer.dto';
 import { AccountService } from '../services/account.service';
 import { User } from '../models/user.model';
 import { CustomerService } from '../services/customer.service';
 import { Customer } from '../models/customer.model';
 import { QueryDto } from '../dtos/query.dto';
+import { UpdateCustomerContract } from '../contracts/customer/update-customer.contract';
+import { UpdateCustomerDto } from '../dtos/customer/update-customer.dto';
 
 @Controller('v1/customers')
 export class CustomerController {
@@ -27,7 +30,7 @@ export class CustomerController {
 
   @Post()
   @UseInterceptors(new ValidatorInterceptor(new CreateCustomerContract()))
-  async createCustomer(@Body() model: CreateCustomerDto) {
+  async create(@Body() model: CreateCustomerDto) {
     try {
       const user = await this.accountService.create(
         new User(model.document, model.password, true),
@@ -48,7 +51,26 @@ export class CustomerController {
       return new Result('Client created', true, res, null);
     } catch (error) {
       throw new HttpException(
-        new Result('Something went wrong', false, null, error),
+        new Result(
+          'Não foi possível realizar seu cadastro',
+          false,
+          null,
+          error,
+        ),
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  @Put(':document')
+  @UseInterceptors(new ValidatorInterceptor(new UpdateCustomerContract()))
+  async update(@Param('document') document, @Body() model: UpdateCustomerDto) {
+    try {
+      await this.customerService.update(document, model);
+      return new Result(null, true, model, null);
+    } catch (error) {
+      throw new HttpException(
+        new Result('Não foi possível atualizar seus dados', false, null, error),
         HttpStatus.BAD_REQUEST,
       );
     }
