@@ -2,7 +2,6 @@ import { JwtService } from '@nestjs/jwt';
 import { Injectable } from '@nestjs/common';
 import { AccountService } from '../../modules/backoffice/services/account.service';
 import { JwtPayload } from '../interfaces/jwt-payload.interface';
-import { User } from 'dist/backoffice/Models/user.model';
 
 @Injectable()
 export class AuthService {
@@ -16,7 +15,7 @@ export class AuthService {
     const accessToken = this.jwtService.sign(user);
 
     return {
-      expiresIn: 3600,
+      expiresIn: '7d',
       accessToken,
     };
   }
