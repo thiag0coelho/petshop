@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { BackofficeModule } from 'src/modules/backoffice/backoffice.module';
-import { StoreModule } from 'src/modules/store/store.module';
+import { BackofficeModule } from './modules/backoffice/backoffice.module';
+import { StoreModule } from './modules/store/store.module';
 
 @Module({
   imports: [
@@ -11,7 +11,7 @@ import { StoreModule } from 'src/modules/store/store.module';
     ),
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: '127.0.0.1',
+      host: 'localhost',
       port: 3306,
       username: 'root',
       password: 'mysql',

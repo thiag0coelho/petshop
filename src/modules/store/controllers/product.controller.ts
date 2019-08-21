@@ -9,9 +9,9 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
-import { ProductService } from 'src/modules/store/services/product.service';
-import { Product } from 'src/modules/store/entities/product.entity';
-import { Result } from 'dist/modules/backoffice/Models/result.model';
+import { ProductService } from '../services/product.service';
+import { Product } from '../entities/product.entity';
+import { Result } from '../../../modules/backoffice/models/result.model';
 
 @Controller('v1/products')
 export class ProductController {

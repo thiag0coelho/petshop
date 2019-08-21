@@ -1,5 +1,5 @@
 import { Contract } from 'src/modules/backoffice/contracts/contract';
-import { Flunt } from 'src/utils/flunt';
+import { Flunt } from '../../../../utils/flunt';
 import { CreditCard } from 'src/modules/backoffice/Models/credit-card.model';
 
 export class CreateCreditCardContract implements Contract {
