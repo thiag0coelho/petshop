@@ -1,5 +1,5 @@
 import { Contract } from 'src/modules/backoffice/contracts/contract';
-import { Flunt } from 'src/utils/flunt';
+import { Flunt } from '../../../../utils/flunt';
 import { CreateCustomerDto } from 'src/modules/backoffice/dtos/customer/create-customer.dto';
 
 export class CreateCustomerContract implements Contract {
